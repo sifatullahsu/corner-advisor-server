@@ -87,7 +87,19 @@ const run = async () => {
       res.send(result);
     });
 
-    //
+    app.post('/get-reviews-by-email', async (req, res) => {
+      const email = req.body.email;
+
+      const query = { "author.email": email }
+      const cursor = reviewCollection.find(query);
+      const reviews = await cursor.toArray();
+
+      const data = {
+        data: reviews
+      }
+
+      res.send(data);
+    });
 
     app.post('/service', async (req, res) => {
       const data = req.body;
