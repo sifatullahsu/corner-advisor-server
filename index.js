@@ -25,6 +25,7 @@ const run = async () => {
   try {
     const db = client.db('corner-advisor');
     const serviceCollection = db.collection('services');
+    const reviewCollection = db.collection('reviews');
 
     app.get('/services', async (req, res) => {
       const page = parseInt(req.query.page) || 1;
@@ -54,8 +55,15 @@ const run = async () => {
       const query = { _id: ObjectId(id) }
 
       const service = await serviceCollection.findOne(query);
-      return res.send(service);
+      res.send(service);
     });
+
+    app.post('/review', async (req, res) => {
+      const data = req.body;
+      const result = await reviewCollection.insertOne(data);
+
+      res.send(result)
+    })
 
   }
   finally {
