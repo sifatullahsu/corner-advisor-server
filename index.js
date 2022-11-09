@@ -108,7 +108,17 @@ const run = async () => {
       res.send(result);
     });
 
-    // 
+    app.patch('/reviews/:id', async (req, res) => {
+      const id = req.params.id;
+      const updateObject = req.body;
+
+      const query = { _id: ObjectId(id) }
+      const updatedDoc = {
+        $set: updateObject
+      }
+      const result = await reviewCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    });
   }
   finally {
 
