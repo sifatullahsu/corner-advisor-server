@@ -62,8 +62,15 @@ const run = async () => {
       const data = req.body;
       const result = await reviewCollection.insertOne(data);
 
-      res.send(result)
-    })
+      res.send(result);
+    });
+
+    app.post('/service', async (req, res) => {
+      const data = req.body;
+      const result = await serviceCollection.insertOne(data);
+
+      res.send(result);
+    });
 
   }
   finally {
