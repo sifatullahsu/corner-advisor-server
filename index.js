@@ -61,7 +61,7 @@ const run = async () => {
       const skip = (page - 1) * size;
 
       const query = {}
-      const cursor = serviceCollection.find(query);
+      const cursor = serviceCollection.find(query).sort({ _id: -1 });
       const services = await cursor.skip(skip).limit(size).toArray();
 
       const totalRecord = await serviceCollection.estimatedDocumentCount();
@@ -101,7 +101,7 @@ const run = async () => {
       const serviceId = req.query.serviceId;
 
       const query = { serviceId: serviceId }
-      const cursor = reviewCollection.find(query);
+      const cursor = reviewCollection.find(query).sort({ date: -1 });
       const reviews = await cursor.toArray();
 
       const data = {
@@ -115,7 +115,7 @@ const run = async () => {
       const email = req.query.email;
 
       const query = { "author.email": email }
-      const cursor = reviewCollection.find(query);
+      const cursor = reviewCollection.find(query).sort({ date: -1 });
       const reviews = await cursor.toArray();
 
       const data = {
