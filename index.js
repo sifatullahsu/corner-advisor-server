@@ -53,14 +53,20 @@ const run = async () => {
     app.get('/services/:id', async (req, res) => {
       const id = req.params.id;
 
-      let service = {}
-
       if (ObjectId.isValid(id)) {
         const query = { _id: ObjectId(id) }
-        service = await serviceCollection.findOne(query);
-      }
+        const service = await serviceCollection.findOne(query);
 
-      res.send(service);
+        if (service) {
+          res.send(service);
+        }
+        else {
+          res.send({ message: 'No data found..' });
+        }
+      }
+      else {
+        res.send({ message: 'No data found..' });
+      }
     });
 
     app.get('/reviews', async (req, res) => {
@@ -79,10 +85,21 @@ const run = async () => {
 
     app.get('/reviews/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) }
 
-      const review = await reviewCollection.findOne(query);
-      res.send(review);
+      if (ObjectId.isValid(id)) {
+        const query = { _id: ObjectId(id) }
+        const review = await reviewCollection.findOne(query);
+
+        if (review) {
+          res.send(review);
+        }
+        else {
+          res.send({ message: 'No data found..' });
+        }
+      }
+      else {
+        res.send({ message: 'No data found..' });
+      }
     });
 
     app.post('/review', async (req, res) => {
