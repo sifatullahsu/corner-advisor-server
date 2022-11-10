@@ -52,9 +52,14 @@ const run = async () => {
 
     app.get('/services/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id: ObjectId(id) }
 
-      const service = await serviceCollection.findOne(query);
+      let service = {}
+
+      if (ObjectId.isValid(id)) {
+        const query = { _id: ObjectId(id) }
+        service = await serviceCollection.findOne(query);
+      }
+
       res.send(service);
     });
 
