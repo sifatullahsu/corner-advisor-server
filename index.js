@@ -115,7 +115,7 @@ const run = async () => {
       const email = req.query.email;
 
       const page = parseInt(req.query.page) || 1;
-      const size = parseInt(req.query.size) || 2;
+      const size = parseInt(req.query.size) || 10;
       const skip = (page - 1) * size;
 
       const query = { "author.email": email }
