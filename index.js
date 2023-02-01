@@ -100,12 +100,23 @@ const run = async () => {
     app.get('/reviews', async (req, res) => {
       const serviceId = req.query.serviceId;
 
+      const page = parseInt(req.query.page) || 1;
+      const size = parseInt(req.query.size) || 10;
+      const skip = (page - 1) * size;
+
       const query = { serviceId: serviceId }
       const cursor = reviewCollection.find(query).sort({ date: -1 });
-      const reviews = await cursor.toArray();
+      const reviews = await cursor.skip(skip).limit(size).toArray();
+
+      const totalRecord = await reviewCollection.countDocuments(query);
+      const total = Math.ceil(totalRecord / size);
 
       const data = {
-        data: reviews
+        data: reviews,
+        pagination: {
+          total,
+          current: page,
+        }
       }
 
       res.send(data);
